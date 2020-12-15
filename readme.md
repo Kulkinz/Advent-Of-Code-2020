@@ -1,6 +1,6 @@
 Here contains all my solutions for Advent of Code 2020. A mixture of languages. ASL is Advanced Student Language, taught in UBC's CPSC 110.
 
-|   | ASL | Java |
+|   | ASL/Racket | Java |
 | --- | --- | --- |
 | 1 | X ||
 | 2 | X |X|
