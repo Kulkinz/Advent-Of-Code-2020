@@ -1,0 +1,20 @@
+class, row, train
+class, row, train, type
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival track, class, route, row, seat, train, type
+arrival track, class, route, row, seat, train, type
+departure location, departure station, departure platform, departure track, departure date, arrival location, arrival track, class, route, row, seat, train, type
+arrival location, arrival track, class, route, row, seat, train, type
+departure station, arrival track, class, row, train, type
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival station, arrival platform, arrival track, class, duration, price, route, row, seat, train, type, wagon, zone
+departure station, departure track, departure date, arrival location, arrival track, class, route, row, seat, train, type, zone
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival station, arrival platform, arrival track, class, price, route, row, seat, train, type, wagon, zone
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival track, class, route, row, seat, train, type, wagon, zone
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival platform, arrival track, class, price, route, row, seat, train, type, wagon, zone
+departure location, departure station, departure track, arrival location, arrival track, class, route, row, seat, train, type
+departure location, departure track, class, row
+departure track, departure time, arrival location, arrival track, class, duration, route, row, seat, train, type
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival track, class, price, route, row, seat, train, type, zone
+arrival track, class, route, row, train, type
+departure location, departure station, departure platform, departure track, departure date, departure time, arrival location, arrival platform, arrival track, class, price, route, row, seat, train, type, zone
+class
+departure location, departure station, departure platform, departure track, departure date, arrival location, arrival track, class, route, row, seat, train, type
