@@ -18,12 +18,14 @@ Here contains all my solutions for Advent of Code 2020. A mixture of languages. 
 | 14 | | XX |
 | 15 | | XX |
 | 16 | 1/2 | X1/2|
-| 17 | |
-| 18 | |
-| 19 | |
-| 20 | |
-| 21 | | 
-| 22 | | Likely delayed
-| 23 | | Likely delayed
-| 24 | | Likely delayed
-| 25 | | Likely delayed
+| 17 | | |
+| 18 | | |
+| 19 | | |
+| 20 | | |
+| 21 | | |
+| 22 | | | 
+| 23 | | |
+| 24 | | |
+| 25 | | |
+
+Day 23-25 likely will be finished later due to recovery during this time.
