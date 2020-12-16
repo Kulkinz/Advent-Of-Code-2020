@@ -17,4 +17,4 @@ Here contains all my solutions for Advent of Code 2020. A mixture of languages. 
 | 13 | | XX |
 | 14 | | XX |
 | 15 | | XX |
-| 16 | | X1/2|
+| 16 | 1/2 | X1/2|
