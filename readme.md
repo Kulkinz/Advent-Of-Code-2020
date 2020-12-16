@@ -2,18 +2,19 @@ Here contains all my solutions for Advent of Code 2020. A mixture of languages. 
 
 |   | ASL/Racket | Java |
 | --- | --- | --- |
-| 1 | X ||
-| 2 | X |X|
-| 3 | X | X |
-| 4 | X | X |
-| 5 | X | X |
-| 6 | X | X |
-| 7 | X | X |
-| 8 | | X |
-| 9 | | X |
-| 10 | | X |
-| 11 | | X |
-| 12 | | X |
-| 13 | | X |
-| 14 | | X |
-| 15 | | X |
+| 1 | XX ||
+| 2 | XX |XX|
+| 3 | XX | XX |
+| 4 | XX | XX |
+| 5 | XX | XX |
+| 6 | XX | XX |
+| 7 | XX | XX |
+| 8 | | XX |
+| 9 | | XX |
+| 10 | | XX |
+| 11 | | XX |
+| 12 | | XX |
+| 13 | | XX |
+| 14 | | XX |
+| 15 | | XX |
+| 16 | | X1/2|
