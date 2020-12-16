@@ -109,16 +109,23 @@ public class App {
             System.out.println(arrayList.toString());
         }
 
-        HashMap<String, Integer> areas = solve(commons);
+        // HashMap<String, Integer> areas = solve(commons);
 
-        int acc = 1;
+        long acc = 1;
 
-        acc *= Integer.parseInt(ticket[areas.get("departure location")]);
-        acc *= Integer.parseInt(ticket[areas.get("departure station")]);
-        acc *= Integer.parseInt(ticket[areas.get("departure platform")]);
-        acc *= Integer.parseInt(ticket[areas.get("departure track")]);
-        acc *= Integer.parseInt(ticket[areas.get("departure date")]);
-        acc *= Integer.parseInt(ticket[areas.get("departure time")]);
+        System.out.println(ticket[2]);
+        System.out.println(ticket[4]);
+        System.out.println(ticket[8]);
+        System.out.println(ticket[12]);
+        System.out.println(ticket[14]);
+        System.out.println(ticket[19]);
+
+        acc *= Integer.parseInt(ticket[2]);
+        acc *= Integer.parseInt(ticket[4]);
+        acc *= Integer.parseInt(ticket[8]);
+        acc *= Integer.parseInt(ticket[12]);
+        acc *= Integer.parseInt(ticket[14]);
+        acc *= Integer.parseInt(ticket[19]);
 
         System.out.println(acc);
     }
@@ -217,7 +224,7 @@ public class App {
         String[] starting = arrangements.remove(0).get(i);
         for (String string : starting) {
             if (!string.equalsIgnoreCase("")) {
-                common.add(string);
+                common.add(0, string);
             }
         }
 
@@ -234,7 +241,7 @@ public class App {
                     }
                 }
                 if (found) {
-                    local.add(string);
+                    local.add(0, string);
                 }
             }
 
