@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class App {
+
+    static HashMap<Integer, ArrayList<String>> map = new HashMap<>();
     
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
@@ -25,7 +27,6 @@ public class App {
 
         System.out.println(rules);
 
-        HashMap<Integer, ArrayList<String>> map = new HashMap<>();
 
         for (String string : rules) {
             String[] params = string.split(": ");
@@ -50,32 +51,16 @@ public class App {
 
         ArrayList<String> prev = new ArrayList<>();
 
-        while (!map.get(0).equals(prev)) {
-            prev = map.get(0);
+        generate(42);
+        generate(31);
+        generate(11);
+        generate(8);
+        generate(0);
 
-            ArrayList<String> update = new ArrayList<>();
-
-            for (String string : prev) {
-                if (string.equalsIgnoreCase("(")) {
-                    update.add("(");
-                } else if (string.equalsIgnoreCase(")")) {
-                    update.add(")");
-                } else if (string.equalsIgnoreCase("|")) {
-                    update.add("|");
-                } else {
-                    try {
-                        int x = Integer.parseInt(string);
-                        update.addAll(map.get(x));
-                    } catch (Exception e) {
-                        update.add(string);
-                    }
-                }
-            }
-
-            // System.out.println(update);
-
-            map.put(0, update);
-        }
+        System.out.println("8: " + condense(map.get(8)));
+        System.out.println("11: " + condense(map.get(11)));
+        System.out.println("31: " + condense(map.get(31)));
+        System.out.println("42: " + condense(map.get(42)));
 
 
         // -------------------------------------------------
@@ -84,10 +69,7 @@ public class App {
 
         System.out.println(possibilities);
 
-        String regex = "";
-        for (String string : possibilities) {
-            regex += string;
-        }
+        String regex = condense(possibilities);
         System.out.println(regex);
 
         // System.out.println(Arrays.toString(findDeepestBrackets(amountOfBrackets(possibilities))));
@@ -111,17 +93,130 @@ public class App {
 
         int acc = 0;
 
-        // Pattern pattern = Pattern.compile("^" + regex);
+        ArrayList<String> regexList = new ArrayList<>();
+
+        regexList.add(createRegex(new int[]{42,42,31}));
+        regexList.add(createRegex(new int[]{42,8,42,31}));
+        regexList.add(createRegex(new int[]{42,42,11,31}));
+        regexList.add(createRegex(new int[]{42,8,42,11,31}));
+
+        regexList.add(createRegex(new int[]{42,42,42,31}));
+        regexList.add(createRegex(new int[]{42,42,8,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,11,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,31,31}));
+        regexList.add(createRegex(new int[]{42,42,8,42,42,11,31,31}));
+
+        regexList.add(createRegex(new int[]{42,42,42,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,8,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,11,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,42,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,8,42,42,42,11,31,31,31}));
+
+        regexList.add(createRegex(new int[]{42,42,42,42,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,8,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,31,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,11,31,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,42,42,42,31,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,8,42,42,42,42,11,31,31,31,31}));
+
+        regexList.add(createRegex(new int[]{42,42,42,42,42,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,8,42,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,42,31,31,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,42,11,31,31,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,42,42,42,42,42,31,31,31,31,31}));
+        regexList.add(createRegex(new int[]{42,42,42,42,42,8,42,42,42,42,42,11,31,31,31,31,31}));
+
+        acc += count(combineRegex(regexList), messages);
+
+        System.out.println(acc);
+    }
+
+    public static String createRegex(int[] x) {
+        String acc = "";
+        for (Integer integer : x) {
+            acc += condense(map.get(integer));
+        }
+        return acc;
+    }
+
+    public static String combineRegex(ArrayList<String> x) {
+        String acc = "";
+        for (String string : x) {
+            acc += "|" + string;
+        }
+
+        return acc.substring(1);
+    }
+
+    // public static ArrayList<int[]> generate(int acc, ArrayList<int[]> x) {
+    //     ArrayList<int[]> y =  new ArrayList<>();
+    //     if (acc < 1) {
+    //         for (int[] arrayList : x) {
+    //             ArrayList<Integer> z = Arrays.asList(arrayList);
+    //             arrayList.indexOf(8);
+
+    //         }
+    //     }
+
+    //     return y;
+    // }
+
+    public static int count(String regex, ArrayList<String> messages) {
+        int acc = 0;
+
         for (String string : messages) {
             // Matcher matcher = pattern.matcher(string);
             boolean matchfound = string.matches(regex);
-            System.out.println(matchfound);
+            // System.out.println(matchfound);
             if (matchfound) {
+                System.out.println(string);
                 acc++;
             }
         }
 
-        System.out.println(acc);
+        return acc;
+    }
+
+    public static void generate(int spot) {
+        ArrayList<String> prev = new ArrayList<>();
+
+        while (!map.get(spot).equals(prev)) {
+            prev = map.get(spot);
+
+            ArrayList<String> update = new ArrayList<>();
+
+            for (String string : prev) {
+                if (string.equalsIgnoreCase("(")) {
+                    update.add("(");
+                } else if (string.equalsIgnoreCase(")")) {
+                    update.add(")");
+                } else if (string.equalsIgnoreCase("|")) {
+                    update.add("|");
+                } else {
+                    try {
+                        int x = Integer.parseInt(string);
+                        update.addAll(map.get(x));
+                    } catch (Exception e) {
+                        update.add(string);
+                    }
+                }
+            }
+
+            // System.out.println(update);
+
+            map.put(spot, update);
+        }
+    }
+
+    public static String condense(ArrayList<String> possibilities) {
+        String regex = "";
+        for (String string : possibilities) {
+            regex += string;
+        }
+
+        return regex;
     }
 
     public static ArrayList<ArrayList<String>> process(ArrayList<String> x) {
