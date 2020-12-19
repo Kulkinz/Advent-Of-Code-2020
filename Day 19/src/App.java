@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class App {
     
@@ -82,9 +84,15 @@ public class App {
 
         System.out.println(possibilities);
 
+        String regex = "";
+        for (String string : possibilities) {
+            regex += string;
+        }
+        System.out.println(regex);
+
         // System.out.println(Arrays.toString(findDeepestBrackets(amountOfBrackets(possibilities))));
 
-        System.out.println(process(possibilities, new ArrayList<>()));
+        // System.out.println(process(possibilities));
 
 
         // --------------------------------------------------
@@ -100,107 +108,79 @@ public class App {
         sc.close();
 
         System.out.println(messages);
+
+        int acc = 0;
+
+        // Pattern pattern = Pattern.compile("^" + regex);
+        for (String string : messages) {
+            // Matcher matcher = pattern.matcher(string);
+            boolean matchfound = string.matches(regex);
+            System.out.println(matchfound);
+            if (matchfound) {
+                acc++;
+            }
+        }
+
+        System.out.println(acc);
     }
 
-    public static ArrayList<String> process(ArrayList<String> x, ArrayList<String> list) {
-
-        ArrayList<String> result = new ArrayList<>();
-
-        System.out.println(x);
-
+    public static ArrayList<ArrayList<String>> process(ArrayList<String> x) {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        
         ArrayList<int[]> locations = amountOfBrackets(x);
+
+        if (result.size() == 1) {
+            ArrayList<ArrayList<String>> element = new ArrayList<>();
+            element.add(result.get(0));
+            return element;
+        }
 
         if (!locations.isEmpty()) {
             int[] deepestLocations = findDeepestBrackets(locations);
             int low = deepestLocations[0];
             int high = deepestLocations[1];
-        
+
             ArrayList<String> targetString = new ArrayList<String>(x.subList(low, high + 1));
             targetString.remove(0);
             targetString.remove(targetString.size() - 1);
-        
-            result = process(targetString, list);
-                    
-            System.out.println("Target: " + targetString);
-            System.out.println("Result: " + result);
-        
+
+            result = process(targetString);
+            
+            System.out.println(targetString);
+            System.out.println(result);
+
             x.subList(low, high + 1).clear();
-        
-            System.out.println("X: " + x);
+
+            System.out.println(x);
+
+            
+
         } else {
-            ArrayList<String> strings = new ArrayList<>();
-            String acc = "";
-            for (String string : x) {
-                acc += string;    
+
+            ArrayList<String> options = new ArrayList<>();
+            int index = x.indexOf("|");
+            int max = x.size();
+
+            String temp = "";
+            for (int i = 0; i < index; i++) {
+                temp += x.get(i);
             }
+            options.add(temp);
+            temp = "";
+            for (int i = index + 1; i < max; i++) {
+                temp += x.get(i);
+            }
+            options.add(temp);
 
-            strings.add(acc);
+            System.out.println("options: " + options);
 
-            System.out.println(acc);
-
-            return strings;
+            result.add(options);
         }
 
-        return list;
+        return result;
+
+
     }
-
-    // public static ArrayList<ArrayList<String>> process(ArrayList<String> x) {
-    //     ArrayList<ArrayList<String>> result = new ArrayList<>();
-        
-    //     ArrayList<int[]> locations = amountOfBrackets(x);
-
-    //     if (result.size() == 1) {
-    //         ArrayList<ArrayList<String>> element = new ArrayList<>();
-    //         element.add(result.get(0));
-    //         return element;
-    //     }
-
-    //     if (!locations.isEmpty()) {
-    //         int[] deepestLocations = findDeepestBrackets(locations);
-    //         int low = deepestLocations[0];
-    //         int high = deepestLocations[1];
-
-    //         ArrayList<String> targetString = new ArrayList<String>(x.subList(low, high + 1));
-    //         targetString.remove(0);
-    //         targetString.remove(targetString.size() - 1);
-
-    //         result = process(targetString);
-            
-    //         System.out.println(targetString);
-    //         System.out.println(result);
-
-    //         x.subList(low, high + 1).clear();
-
-    //         System.out.println(x);
-
-
-
-    //     } else {
-
-    //         ArrayList<String> options = new ArrayList<>();
-    //         int index = x.indexOf("|");
-    //         int max = x.size();
-
-    //         String temp = "";
-    //         for (int i = 0; i < index; i++) {
-    //             temp += x.get(i);
-    //         }
-    //         options.add(temp);
-    //         temp = "";
-    //         for (int i = index + 1; i < max; i++) {
-    //             temp += x.get(i);
-    //         }
-    //         options.add(temp);
-
-    //         System.out.println("options: " + options);
-
-    //         result.add(options);
-    //     }
-
-    //     return result;
-
-
-    // }
 
     public static int[] findDeepestBrackets(ArrayList<int[]> locations) {
         int leftBracket = -1;
