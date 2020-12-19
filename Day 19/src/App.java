@@ -49,19 +49,34 @@ public class App {
 
         }
 
-        ArrayList<String> prev = new ArrayList<>();
+        // ----------------------------------------------
 
-        generate(42);
-        generate(31);
-        generate(11);
-        generate(8);
+        file = new File("bbb.txt");
+        sc = new Scanner(file);
+        ArrayList<String> h = new ArrayList<>();
+        while (sc.hasNext()) {
+            String g = sc.next().replace("[","").replace("]","").replace(",","");
+            h.add(String.valueOf(g));
+            map.put(0, h);
+        }
+        // System.out.println(map.get(0));
+        sc.close();
+
+
+        // generate(42);
+        // generate(31);
+        // generate(11);
+        // generate(8);
+
+        System.out.println("generating...");
         generate(0);
 
-        System.out.println("8: " + condense(map.get(8)));
-        System.out.println("11: " + condense(map.get(11)));
-        System.out.println("31: " + condense(map.get(31)));
-        System.out.println("42: " + condense(map.get(42)));
+        // System.out.println("8: " + condense(map.get(8)));
+        // System.out.println("11: " + condense(map.get(11)));
+        // System.out.println("31: " + condense(map.get(31)));
+        // System.out.println("42: " + condense(map.get(42)));
 
+        
 
         // -------------------------------------------------
 
@@ -95,40 +110,40 @@ public class App {
 
         ArrayList<String> regexList = new ArrayList<>();
 
-        regexList.add(createRegex(new int[]{42,42,31}));
-        regexList.add(createRegex(new int[]{42,8,42,31}));
-        regexList.add(createRegex(new int[]{42,42,11,31}));
-        regexList.add(createRegex(new int[]{42,8,42,11,31}));
+        // regexList.add(createRegex(new int[]{42,42,31}));
+        // regexList.add(createRegex(new int[]{42,8,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,11,31}));
+        // regexList.add(createRegex(new int[]{42,8,42,11,31}));
 
-        regexList.add(createRegex(new int[]{42,42,42,31}));
-        regexList.add(createRegex(new int[]{42,42,8,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,11,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,31,31}));
-        regexList.add(createRegex(new int[]{42,42,8,42,42,11,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,8,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,11,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,8,42,42,11,31,31}));
 
-        regexList.add(createRegex(new int[]{42,42,42,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,8,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,11,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,42,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,8,42,42,42,11,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,8,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,11,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,42,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,8,42,42,42,11,31,31,31}));
 
-        regexList.add(createRegex(new int[]{42,42,42,42,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,8,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,31,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,11,31,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,42,42,42,31,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,8,42,42,42,42,11,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,8,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,11,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,42,42,42,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,8,42,42,42,42,11,31,31,31,31}));
 
-        regexList.add(createRegex(new int[]{42,42,42,42,42,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,8,42,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,42,31,31,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,42,11,31,31,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,42,42,42,42,42,31,31,31,31,31}));
-        regexList.add(createRegex(new int[]{42,42,42,42,42,8,42,42,42,42,42,11,31,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,8,42,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,42,31,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,42,11,31,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,42,42,42,42,42,31,31,31,31,31}));
+        // regexList.add(createRegex(new int[]{42,42,42,42,42,8,42,42,42,42,42,11,31,31,31,31,31}));
 
-        acc += count(combineRegex(regexList), messages);
+        acc += count(regex, messages);
 
         System.out.println(acc);
     }
@@ -182,6 +197,8 @@ public class App {
     public static void generate(int spot) {
         ArrayList<String> prev = new ArrayList<>();
 
+        int aa = 0;
+
         while (!map.get(spot).equals(prev)) {
             prev = map.get(spot);
 
@@ -206,7 +223,16 @@ public class App {
 
             // System.out.println(update);
 
+            aa++;
+
+            // if (aa > 10) {
+            //     System.out.println(update);
+            //     break;
+            // }
+
             map.put(spot, update);
+
+            // System.out.println(update);
         }
     }
 
