@@ -64,13 +64,18 @@ public class App {
 
                 ArrayList<char[][]> combinations = new ArrayList<>();
 
-                for (int i = 1; i <= 4; i++) {
-                    char[][] rotate = rotatePiece(piece, i * 90);
 
-                    combinations.add(rotate);
-                    combinations.add(flipPieceHor(rotate));
-                    combinations.add(flipPieceVir(rotate));
-                }
+                combinations.add(piece);
+                combinations.add(flipPieceHor(piece));
+                combinations.add(flipPieceVir(piece));
+                combinations.add(flipPieceHor(flipPieceVir(piece)));
+                
+                char[][] rotate = rotatePiece(piece, 90);
+
+                combinations.add(rotate);
+                combinations.add(flipPieceHor(rotate));
+                combinations.add(flipPieceVir(rotate));
+                combinations.add(flipPieceHor(flipPieceVir(rotate)));
 
                 tileList.add(tile);
                 map.put(tile, combinations);
@@ -80,6 +85,73 @@ public class App {
                 pieceRaw.add(string);
             }
         }
+
+
+        // ArrayList<String> solution = new ArrayList<>();
+
+        
+        // file = new File("find.txt");
+        // sc = new Scanner(file);
+
+        // while (sc.hasNextLine()) {
+        //     solution.add(sc.nextLine());
+        // }
+        // sc.close();
+
+
+
+        // for (int i = 0; i < map.get(1171).size(); i++) {
+        //     char[][] testing = map.get(1171).get(i);
+        //     boolean test = true;
+        //     for (int x = 0; x < solution.size(); x++) {
+        //         for (int y = 0; y < solution.size(); y++) {
+        //             if (testing[x][y] != solution.get(y).charAt(x)) {
+        //                 test = false;
+        //             }
+        //         }
+        //     }
+
+        //     if (test) {
+        //         System.out.println(i);
+        //         System.out.println(Arrays.deepToString(testing));
+        //         System.out.println(solution);
+        //     }
+        // }
+
+
+
+
+
+        // System.out.println(compareSides(map.get(1951).get(5), map.get(2311).get(10)));
+        // System.out.println(compareSides(map.get(2311).get(5), map.get(3079).get(9)));
+        // System.out.println(compareSides(map.get(2729).get(10), map.get(1427).get(5)));
+        // System.out.println(compareSides(map.get(1427).get(5), map.get(2473).get(1)));
+        // System.out.println(compareSides(map.get(2971).get(5), map.get(1489).get(5)));
+        // System.out.println(compareSides(map.get(1489).get(5), map.get(1171).get(11)));
+
+
+
+        // System.out.println(compareTops(map.get(1951).get(5), map.get(2729).get(5)));
+        // System.out.println(compareTops(map.get(2729).get(5), map.get(2971).get(5)));
+        // System.out.println(compareTops(map.get(2311).get(5), map.get(1427).get(5)));
+        // System.out.println(compareTops(map.get(1427).get(5), map.get(1489).get(5)));
+        // System.out.println(compareTops(map.get(3079).get(9), map.get(2473).get(1)));
+
+
+        
+        // System.out.println("-----------------");
+        // draw(map.get(2473).get(8));
+        // System.out.println("");
+        // draw(map.get(1171).get(11));
+        // System.out.println(compareTops(map.get(2473).get(8), map.get(1171).get(11)));
+        // System.out.println("-----------------");
+
+        
+
+
+
+
+
 
         System.out.println(map.get(tileList.get(0)).size());
 
@@ -91,47 +163,233 @@ public class App {
         // System.out.println(Arrays.deepToString(e.or3));
         // System.out.println(Arrays.deepToString(e.or4));
 
+        System.out.println(tileList.size());
         int size = (int) Math.sqrt(tileList.size());
         System.out.println(size);
-        solve(tileList, new Entry[size][size], size, -1, 0);
+
+        // generateNext(tileList, x, y, size)
+
+        System.out.println(tileList);
+
+        // for (Integer integer : tileList) {
+        //     for (char[][] piece : map.get(integer)) {
+        //         System.out.println(Arrays.deepToString(piece));
+        //     }
+        // }
+
+
+        
+        Recursion a = solve(new Recursion(new Entry[size][size]), tileList, size, 0, 0);
+
+        Entry[][] b = a.entry;
+
+        for (Entry[] entries : b) {
+            for (Entry entries2 : entries) {
+                if (entries2 != null) {
+                    System.out.println("X: " + entries2.x + " Y: " + entries2.y + " ID: " + entries2.id + " Index: " + entries2.index);
+                }
+            }
+        }
+
+        long ans = 1;
+        ans *= b[0][0].id;
+        ans *= b[0][size-1].id;
+        ans *= b[size-1][0].id;
+        ans *= b[size-1][size-1].id;
+
+        System.out.println(ans);
+
+        
         
     }
 
-    public static Entry[][] solve(ArrayList<Integer> tileList, ArrayList<ArrayList<Entry>> worklist, Entry[][] acc, int size, int x, int y) {
+    static int abc = 0;
 
+    public static Recursion solve(Recursion rec, ArrayList<Integer> tileList, int size, int x, int y) {
+        
         if (tileList.isEmpty()) {
-            return acc;
+            return rec;
         } else {
-            ArrayList<Entry> aaa = (filter(acc, generateNext(tileList, x, y, size), x, y));
+            // System.out.println("X: " + x);
+            // System.out.println("Y: " + y);
+            ArrayList<Entry> aaa = (filter(rec.entry, generateNext(tileList, x, y, size), x, y));
 
             for (Entry entry : aaa) {
-                System.out.println("X: " + entry.x + " Y: " + entry.y + " ID: " + entry.id + " Index: " + entry.index);
+                // System.out.println("X: " + entry.x + " Y: " + entry.y + " ID: " + entry.id + " Index: " + entry.index);
             }
 
-            return process(aaa);
+            
+            int nextX;
+            int nextY;
+
+            if (x < size-1) {
+                nextX = x + 1;
+                nextY = y;
+            } else {
+                nextX = 0;
+                nextY = y + 1;
+            }
+            
+            return process(rec, tileList, aaa, size, nextX, nextY);
+            // return new Recursion(new Entry[0][0]);
         }
+        
     }
 
-    public static Entry[][] process(ArrayList<Entry> next) {
+    public static Recursion process(Recursion rec, ArrayList<Integer> tileList, ArrayList<Entry> next, int size, int x, int y) {
+
         
 
+        // int acc = 0;
+
+        // Entry[][] b = rec.entry;
+
+        // for (Entry[] entries : b) {
+        //     for (Entry entries2 : entries) {
+        //         if (entries2 != null) {
+        //             acc++;
+        //         }
+        //     }
+        // }
+
+        // if (acc == 13) {
+        //     System.out.println("Debug -----------------------------------------------------------------------------------");
+
+        //     System.out.println("Tilelist: " + tileList);
+    
+        //     System.out.println("Size: " + size);
+        //     System.out.println("X: " +x);
+        //     System.out.println("Y: " +y);
+    
+        //     for (Entry entry : next) {
+        //         System.out.println("X: " + entry.x + " Y: " + entry.y + " ID: " + entry.id + " Index: " + entry.index);
+        //     }
+    
+        //     System.out.println("rec: -----------------------");
+    
+        //     for (Entry[] entry : rec.entry) {
+        //         for (Entry entry2 : entry) {
+        //             if (entry2 != null) {
+        //                 System.out.println("X: " + entry2.x + " Y: " + entry2.y + " ID: " + entry2.id + " Index: " + entry2.index);
+        //             }
+        //         }
+        //     }
+            
+        //     System.out.println("End Debug -----------------------------------------------------------------------------------");
+
+            
+        //     System.out.println(abc);
+        //     return new Recursion(new Entry[0][0]);
+        // } else {
+        //     abc++;
+        // }
+
+
+        // if (abc > 10) {
+        //     return new Recursion(new Entry[0][0]);
+
+        // } else {
+        //     abc++;
+        // }
+
+        // return new Recursion(new Entry[0][0]);
+
+        if (next.isEmpty()) {
+            Recursion localRec = new Recursion(rec.entry);
+            localRec.state = false;
+            return localRec;
+        } else {
+            ArrayList<Integer> localTileList = (ArrayList<Integer>) tileList.clone();
+            Entry currentEntry = next.remove(0);
+            localTileList.remove(localTileList.indexOf(currentEntry.id));
+
+            // System.out.println("X: " + currentEntry.x + " Y: " + currentEntry.y + " ID: " + currentEntry.id + " Index: " + currentEntry.index);
+            // System.out.println(localTileList);
+            Entry[][] spot = new Entry[size][size];
+
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    Entry e = rec.entry[i][j];
+                    if (e != null) {
+                        Entry eLocal = new Entry(e.x, e.y, e.id, e.index);
+                        spot[i][j] = eLocal;
+                    }
+                }
+            }
+            // Entry[][] spot = rec.entry.clone();
+
+            // System.out.println(Arrays.deepToString(rec.entry));
+            // System.out.println(currentEntry.x);
+            spot[currentEntry.x][currentEntry.y] = currentEntry;
+            // System.out.println(Arrays.deepToString(spot));
+
+            // System.out.println("---------------------------------------------------- updated");
+            
+            // for (Entry[] entries : spot) {
+            //     for (Entry entries2 : entries) {
+            //         System.out.println("X: " + entries2.x + " Y: " + entries2.y + " ID: " + entries2.id + " Index: " + entries2.index);
+            //     }
+            // }
+
+            // System.out.println("---------------------------------------------------- before");
+
+            // for (Entry[] entries : rec.entry) {
+            //     for (Entry entries2 : entries) {
+            //         System.out.println("X: " + entries2.x + " Y: " + entries2.y + " ID: " + entries2.id + " Index: " + entries2.index);
+            //     }
+            // }
+
+
+            Recursion localRec = new Recursion(spot);
+            Recursion attempt = solve(localRec, localTileList, size, x, y);
+
+            if (attempt.state) {
+                return attempt;
+            } else {
+                // System.out.println("EMPTY  !!!!!!!!!!!!!!!!!!!!!!");
+                return process(rec, tileList, next, size, x, y);
+            }
+        }
+
     }
+
+    
+    // ArrayList<Entry> aaa = (filter(rec.entry, generateNext(tileList, x, y, size), x, y));
 
     public static ArrayList<Entry> filter(Entry[][] acc, ArrayList<Entry> next, int x, int y) {
         ArrayList<Entry> local = new ArrayList<>();
+
+        // System.out.println("Filter::: -----------");
+
 
         if (x == -1) {
             return next;
         }
 
         for (Entry entry : next) {
+
+
             boolean bool = true;
-            if (x == 0) {
-                bool = compareSides(acc[x][y], entry);
+            if (x == 0 && y == 0) {
+                bool = true;
+            } else if (x == 0) {
+                // System.out.println("-----------------");
+                // draw(map.get(acc[x][y-1].id).get(acc[x][y-1].index));
+                // System.out.println("");
+                // draw(map.get(entry.id).get(entry.index));
+                bool = compareTops(acc[x][y - 1], entry);
+                // System.out.println(bool);
+                // System.out.println("-----------------");
             } else if (y == 0) {
-                bool = compareTops(acc[x][y], entry);
+                bool = compareSides(acc[x - 1][y], entry);
             } else {
-                bool = compareSides(acc[x][y], entry) && compareTops(acc[x][y], entry);
+                // System.out.println("-----------------");
+                // draw(map.get(acc[x][y-1].id).get(acc[x][y-1].index));
+                // System.out.println("");
+                // draw(map.get(entry.id).get(entry.index));
+                bool = compareSides(acc[x - 1][y], entry) && compareTops(acc[x][y - 1], entry);
+                // System.out.println(bool);
+                // System.out.println("-----------------");
             }
 
             if (bool) {
@@ -149,17 +407,12 @@ public class App {
         int localX = x;
         int localY = y;
 
-        if (localX < size - 1) {
-            localX++;
-        } else {
-            localX = 0;
-            localY++;
-        }
-
         for (Integer integer : tileList) {
             ArrayList<char[][]> bbb = map.get(integer);
             for (int i = 0; i < bbb.size(); i++) {
                 Entry e = new Entry(localX, localY, integer, i);
+                // System.out.println("X: " + e.x + " Y: " + e.y + " ID: " + e.id + " Index: " + e.index);
+            
                 aaa.add(e);
             }
             
@@ -169,73 +422,35 @@ public class App {
     }
 
 
+    public static boolean compareSides(char[][] piece1, char[][] piece2) {
+        boolean result = true;
 
+        int side = piece1.length - 1;
 
-    // for (int tileNum : tileList) {
-    //     for (char[][] c : map.get(tileNum)) {
-            
-    //         int size = (int) Math.sqrt(tileList.size());
-    //         int[][] coords = new int[size][size];
+        for (int i = 0; i < piece1.length; i++) {
+            if (piece1[side][i] != piece2[0][i]) {
+                result = false;
+            }
+        }
 
-    //         coords[0][0] = tileNum;
+        return result;
 
-    //         ArrayList<Integer> localTileList = (ArrayList<Integer>) tileList.clone();
-    //         localTileList.remove(tileNum);
+    }
 
-    //         for (int y = 0; y < args.length; y++) {
+    public static boolean compareTops(char[][] piece1, char[][] piece2) {
+        boolean result = true;
 
-    //             for (int x = 0; x < args.length; x++) {
-                    
-    //                 for (int localTile : localTileList) {
-                        
-    //                     for (char[][] c2 : map.get(localTile)) {
-    //                         if (y == 0 && x == 0) {
-    //                             break;
-    //                         }
+        int bottom = piece1.length - 1;
 
-    //                         if (y == 0) {
-    //                             compareSides(map.get(coords[x-1][y]), c2);
-    //                         } else {
-                            
-    //                         }
-                            
-    //                         if (x == 0) {
-                            
-    //                         } else {
-                            
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    
-    // int size = (int) Math.sqrt(tileList.size());
-    // int[][] coords = new int[size][size];
+        for (int i = 0; i < piece1.length; i++) {
+            if (piece1[i][bottom] != piece2[i][0]) {
+                result = false;
+            }
+        }
 
-    // ArrayList<Integer> localTileList = (ArrayList<Integer>) tileList.clone();
+        return result;
 
-    // for (int y = 0; y < size; y++) {
-    //     for (int x = 0; x < size; x++) {
-    //         int temp = localTileList.size();
-    //         int currentTile = 0;
-    //         for (int i = 0; i < temp; i++) {
-    //             if (y == 0) {
-                    
-    //             } else {
-
-    //             }
-
-    //             if (x == 0) {
-
-    //             } else {
-
-    //             }
-    //         }
-            
-    //     }
-    // }
+    }
 
     public static boolean compareSides(Entry e1, Entry e2) {
         boolean result = true;
@@ -262,7 +477,7 @@ public class App {
         int bottom = piece1.length - 1;
 
         for (int i = 0; i < piece1.length; i++) {
-            if (piece1[i][bottom] != piece2[i][bottom]) {
+            if (piece1[i][bottom] != piece2[i][0]) {
                 result = false;
             }
         }
@@ -334,6 +549,32 @@ public class App {
         }
 
         return copy;
+    }
+
+    public static ArrayList<String> draw(char[][] a) {
+            
+        ArrayList<String> piece = new ArrayList<>();
+        for (int y = 0; y < a.length; y++) {
+            String b = "";
+            for (int x = 0; x < a.length; x++) {
+                b += String.valueOf(a[x][y]);
+            }
+            // System.out.println(b);
+            piece.add(b);
+        }
+
+        return piece;
+    }
+
+    public static class Recursion {
+        boolean state = true;
+
+        Entry[][] entry;
+
+        public Recursion(Entry[][] entry) {
+            this.entry = entry;
+        }
+        
     }
 
     public static class Entry {
