@@ -23,7 +23,7 @@ Here contains all my solutions for Advent of Code 2020. A mixture of languages. 
 | 19 | | XX |
 | 20 | | XX |
 | 21 | | XX |
-| 22 | | | 
+| 22 | | XX |
 | 23 | | |
 | 24 | | |
 | 25 | | |
