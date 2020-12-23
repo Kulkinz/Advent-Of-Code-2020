@@ -22,28 +22,43 @@ public class App {
 
         System.out.println(cups);
 
+        int maxTerm = Collections.max(cups);
+
+        for (int i = maxTerm + 1; i <= 1000000; i++) {
+            cups.add(i);
+        }
+
         int index = 0;
         int length = cups.size();
 
-        for (int i = 0; i < 100; i++) {
+        System.out.println(length);
+
+        for (int i = 0; i < 10000000; i++) {
+
+            System.out.println(i);
+
             int target = cups.get(index);
 
-            System.out.println("current target:" + target);
+            // System.out.println("current target:" + target);
 
             ArrayList<Integer> next3Terms = new ArrayList<>();
 
+            int[] spots = new int[3];
+
             for (int j = 1; j <= 3; j++) {
                 
-                int localTarget = (index + j >= length) ? index + j - length : index + j;
-
-                next3Terms.add(cups.get(localTarget));
+                spots[j-1] = (index + j >= length) ? index + j - length : index + j;
                 
             }
 
+            next3Terms.add(cups.get(spots[0]));
+            next3Terms.add(cups.get(spots[1]));
+            next3Terms.add(cups.get(spots[2]));
+
             cups.removeAll(next3Terms);
 
-            System.out.println(cups);
-            System.out.println(next3Terms);
+            // System.out.println(cups);
+            // System.out.println(next3Terms);
 
             int nextTarget = target - 1;
 
@@ -59,34 +74,43 @@ public class App {
                 }
             }
             
-            System.out.println("next target: " + nextTarget);
+            // System.out.println("next target: " + nextTarget);
 
             if (locationIndex == -1) {
                 locationIndex = cups.indexOf(Collections.max(cups));
             }
 
-            System.out.println(locationIndex);
-            System.out.println(cups.get(locationIndex));
+            // System.out.println(locationIndex);
+            // System.out.println(cups.get(locationIndex));
 
             cups.addAll(locationIndex + 1, next3Terms);
 
-            System.out.println(cups);
+            // System.out.println(cups);
 
             index = (cups.indexOf(target) + 1 >= length) ? cups.indexOf(target) + 1 - length : cups.indexOf(target) + 1;
 
         }
 
         int indexOf1 = cups.indexOf(1);
-        int iterateIndex = indexOf1 + 1;
+        // int iterateIndex = indexOf1 + 1;
 
-        String acc = "";
+        // String acc = "";
 
-        for (int i = 1; i < cups.size(); i++) {
+        // for (int i = 1; i < cups.size(); i++) {
             
-            acc += cups.get(iterateIndex);
+        //     acc += cups.get(iterateIndex);
 
-            iterateIndex = (iterateIndex + 1 >= length) ? iterateIndex + 1 - length : iterateIndex + 1;
+        //     iterateIndex = (iterateIndex + 1 >= length) ? iterateIndex + 1 - length : iterateIndex + 1;
             
+        // }
+        
+        long acc = 1;
+
+        for (int i = 1; i <= 2; i++) {
+
+            System.out.println(cups.get((indexOf1 + i >= length) ? indexOf1 + i - length : indexOf1 + i));
+            
+            acc *= cups.get((indexOf1 + i >= length) ? indexOf1 + i - length : indexOf1 + i);
         }
 
         System.out.println(acc);
