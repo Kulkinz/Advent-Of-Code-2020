@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,6 +28,8 @@ public class App {
         sc.close();
 
         System.out.println(data);
+
+        HashMap<ArrayList<Integer>, Boolean> grid = new HashMap<>();
 
         ArrayList<ArrayList<String>> instructions = new ArrayList<>();
 
@@ -85,109 +88,97 @@ public class App {
 
         System.out.println(instructions);
 
-        Tile start = new Tile();
-
-        createSurrounding(start);
-
-        // Tile ne1 = start.ne;
-
-        // createSurrounding(ne1);
-
-        // Tile ne2 = ne1.ne;
-
-        // createSurrounding(ne2);
-
-        // Tile se1 = ne2.se;
-
-        // createSurrounding(se1);
-
-        // Tile sw1 = se1.sw;
-
-        // createSurrounding(sw1);
-
-        // Tile w = sw1.w;
-
-        // createSurrounding(w);
-
-        // w.state = true;
-        // se1.state = true;
-
-        // start.print();
-        // start.printState();
-
-        // ne1.print();
-        // ne1.printState();
-
-        // ne2.print();
-        // ne2.printState();
-
-        // se1.print();
-        // se1.printState();
-
-        // sw1.print();
-        // sw1.printState();
-
-        // w.print();
-        // w.printState();
 
         int acc = 0;
 
-        ArrayList<Tile> tiles = new ArrayList<>();
+        ArrayList<Integer> start = new ArrayList<>(Arrays.asList(new Integer[]{0,0,0}));
 
-        tiles.add(start);
+        ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
+
+        // tiles.add(start);
 
         for (ArrayList<String> arrayList : instructions) {
 
-            Tile current = start;
+            ArrayList<Integer> current = (ArrayList<Integer>) start.clone();
 
             for (String arrayList2 : arrayList) {
                 
                 switch (arrayList2) {
                     case "ne":
                         
-                        current = current.ne;
-                        createSurrounding(current);
-                        tiles.add(current);
+                        current.set(0, current.get(0) + 1);
+                        current.set(2, current.get(2) - 1);
+                        // tiles.add(current);
+                        // grid.put(current, false);
+
+                        // current = (ArrayList<Integer>) current.clone();
+
+                        System.out.println("NE: " + current);
 
                         break;
 
                     case "nw":
 
-                        current = current.nw;
-                        createSurrounding(current);
-                        tiles.add(current);
+                        current.set(1, current.get(1) + 1);
+                        current.set(2, current.get(2) - 1);
+                        // tiles.add(current);
+                        // grid.put(current, false);
+
+                        // current = (ArrayList<Integer>) current.clone();
+
+                        System.out.println("NW: " + current);
 
                         break;
 
                     case "w":
 
-                        current = current.w;
-                        createSurrounding(current);
-                        tiles.add(current);
+                        current.set(0, current.get(0) - 1);
+                        current.set(1, current.get(1) + 1);
+                        // tiles.add(current);
+                        // grid.put(current, false);
+                        
+                        // current = (ArrayList<Integer>) current.clone();
+
+                        System.out.println("W: " + current);
 
                         break;
 
                     case "sw":
 
-                        current = current.sw;
-                        createSurrounding(current);
-                        tiles.add(current);
+                        current.set(0, current.get(0) - 1);
+                        current.set(2, current.get(2) + 1);
+                        // tiles.add(current);
+                        // grid.put(current, false);
+                        
+                        // current = (ArrayList<Integer>) current.clone();
+                        
+                        System.out.println("SW: " + current);
 
                         break;
                     
                     case "se":
 
-                        current = current.se;
-                        createSurrounding(current);
-                        tiles.add(current);
+                        current.set(1, current.get(1) - 1);
+                        current.set(2, current.get(2) + 1);
+                        // tiles.add(current);
+                        // grid.put(current, false);
+                        
+                        // current = (ArrayList<Integer>) current.clone();
+
+                        System.out.println("SE: " + current);
 
                         break;
 
                     case "e":
 
-                        current = current.e;
-                        createSurrounding(current);
-                        tiles.add(current);
+                        current.set(0, current.get(0) + 1);
+                        current.set(1, current.get(1) - 1);
+                        // tiles.add(current);
+                        // grid.put(current, false);
+                        
+                        // current = (ArrayList<Integer>) current.clone();
+                        
+                        System.out.println("E: " + current);
 
                         break;
                 
@@ -197,103 +188,40 @@ public class App {
 
             }
 
-            current.state = !current.state;
+            tiles.add(current);
+            // grid.put(current, !grid.get(current));
 
         
         }
 
-        List<Tile> nodups = tiles.stream().distinct().collect(Collectors.toList());
+        System.out.println(tiles);
 
-        for (Tile tile : nodups) {
-            if (tile.state) {
+        List<ArrayList<Integer>> noDups = tiles.stream().distinct().collect(Collectors.toList());
+
+        System.out.println(noDups);
+
+        // System.out.println(tiles.size());
+        // System.out.println(noDups.size());
+        
+
+        for (ArrayList<Integer> arrayList : noDups) {
+
+            if (grid.containsKey(arrayList)) {
+                grid.put(arrayList, !grid.get(arrayList));
+            } else {
+                grid.put(arrayList, true);
+            }
+        }
+        
+
+        for (ArrayList<Integer> arrayList : noDups) {
+            if (grid.get(arrayList)) {
                 acc++;
             }
         }
+
         System.out.println(acc);
         
     }
-
-    public static void createSurrounding(Tile tile) {
-
-        Tile ne = tile.ne;
-        Tile nw = tile.nw;
-        Tile w = tile.w;
-        Tile sw = tile.sw;
-        Tile se = tile.se;
-        Tile e = tile.e;
-
-        if (ne == null) {
-            ne = new Tile();
-        }
-        
-        if (nw == null) {
-            nw = new Tile();
-        }
-
-        if (w == null) {
-            w = new Tile();
-        }
-
-        if (sw == null) {
-            sw = new Tile();
-        }
-
-        if (se == null) {
-            se = new Tile();
-        }
-
-        if (e == null) {
-            e = new Tile();
-        }
-
-        tile.ne = ne;
-        tile.nw = nw;
-        tile.w = w;
-        tile.sw = sw;
-        tile.se = se;
-        tile.e = e;
-
-        ne.sw = tile;
-        ne.se = tile.e;
-        ne.w = tile.nw;
-
-        nw.se = tile;
-        nw.e = tile.ne;
-        nw.sw = tile.w;
-
-        w.e = tile;
-        w.ne = tile.nw;
-        w.se = tile.sw;
-
-        sw.ne = tile;
-        sw.nw = tile.w;
-        sw.e = tile.se;
-
-        se.nw = tile;
-        se.w = tile.sw;
-        se.ne = tile.e;
-
-        e.w = tile;
-        e.nw = tile.ne;
-        e.sw = tile.se;
-    }
-
-    public static class Tile {
-
-        boolean state = false;
-        Tile ne = null;
-        Tile nw = null;
-        Tile w = null;
-        Tile sw = null;
-        Tile se = null;
-        Tile e = null;
-
-        public void print() {
-            System.out.println("THIS: " + this + " NE: " + ne + " NW: " + nw + " W: " + w + " SW: " + sw + " SE: " + se + " E: " + e);
-        }
-
-        public void printState() {
-            System.out.println("THIS: " + state + " NE: " + ne.state + " NW: " + nw.state + " W: " + w.state + " SW: " + sw.state + " SE: " + se.state + " E: " + e.state);
-        }
-    }
+    
 }
