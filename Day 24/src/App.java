@@ -200,27 +200,26 @@ public class App {
 
         System.out.println(noDups);
 
+        int tilesSize = tiles.size();
+        int noDupsSize = noDups.size();
+
+        int difference = tilesSize - noDupsSize;
+
+        System.out.println(tilesSize - difference - difference);
+
         // System.out.println(tiles.size());
         // System.out.println(noDups.size());
         
 
-        for (ArrayList<Integer> arrayList : noDups) {
+        // for (ArrayList<Integer> arrayList : tiles) {
 
-            if (grid.containsKey(arrayList)) {
-                grid.put(arrayList, !grid.get(arrayList));
-            } else {
-                grid.put(arrayList, true);
-            }
-        }
-        
+            // System.out.println(arrayList);
+            // if (grid.get(arrayList)) {
+            //     acc++;
+            // }
+        // }
 
-        for (ArrayList<Integer> arrayList : noDups) {
-            if (grid.get(arrayList)) {
-                acc++;
-            }
-        }
-
-        System.out.println(acc);
+        // System.out.println(acc);
         
     }
     
