@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class App {
 
+    static HashMap<ArrayList<Integer>, Boolean> grid = new HashMap<>();
     
     public static void main(String[] args) throws Exception {
     
@@ -29,7 +30,6 @@ public class App {
 
         System.out.println(data);
 
-        HashMap<ArrayList<Integer>, Boolean> grid = new HashMap<>();
 
         ArrayList<ArrayList<String>> instructions = new ArrayList<>();
 
@@ -199,23 +199,10 @@ public class App {
         List<ArrayList<Integer>> noDups = tiles.stream().distinct().collect(Collectors.toList());
 
         System.out.println(noDups);
-
-        int tilesSize = tiles.size();
-        int noDupsSize = noDups.size();
-
-        int difference = tilesSize - noDupsSize;
-
-        System.out.println(tilesSize - difference - difference);
-
-        System.out.println(difference);
-
-        // System.out.println(tiles.size());
-        // System.out.println(noDups.size());
         
 
         for (ArrayList<Integer> arrayList : tiles) {
 
-            // System.out.println(arrayList);
 
             if (grid.containsKey(arrayList)) {
                 boolean test = grid.get(arrayList);
@@ -223,19 +210,144 @@ public class App {
             } else {
                 grid.put(arrayList, true);
             }
-            // if (grid.get(arrayList)) {
-            //     acc++;
-            // }
         }
 
+        ArrayList<ArrayList<Integer>> blackTiles = new ArrayList<>();
+
         for (ArrayList<Integer> arrayList : noDups) {
+            if (grid.get(arrayList)) {
+                acc++;
+                blackTiles.add(arrayList);
+            }
+        }
+
+        System.out.println(acc);
+
+        ArrayList<ArrayList<Integer>> nextTiles = blackTiles;
+
+        System.out.println(nextTiles);
+
+        // System.out.println(nextTiles.get(0));
+
+        // System.out.println(surroundings(nextTiles.get(0)));
+
+        for (int i = 0; i < 100; i++) {
+            
+            nextTiles = generateOutsideTiles(nextTiles);
+
+            // System.out.println(nextTiles);
+
+            // HashMap<ArrayList<Integer>, Boolean> localGrid = (HashMap<ArrayList<Integer>, Boolean>) grid.clone();
+            HashMap<ArrayList<Integer>, Boolean> localGrid = new HashMap<>();
+
+            for (ArrayList<Integer> arrayList : nextTiles) {
+
+                int surround = 0;
+
+                for (ArrayList<Integer> arrayList2 : surroundings(arrayList)) {
+                    if (grid.containsKey(arrayList2)) {
+                        if (grid.get(arrayList2)) {
+                            surround++;
+                        }
+                    }
+                }
+
+                // System.out.println(surround + "   " + grid.get(arrayList));
+
+                
+                if (grid.get(arrayList)) {
+                    if (surround == 0 || surround > 2) {
+                        localGrid.put(arrayList, false);
+                    } else {
+                        localGrid.put(arrayList, true);
+                    }
+                } else {
+                    if (surround == 2) {
+                        localGrid.put(arrayList, true);
+                    } else {
+                        localGrid.put(arrayList, false);
+                    }
+                }
+            }
+
+            grid = (HashMap<ArrayList<Integer>, Boolean>) localGrid.clone();
+
+        }
+
+        acc = 0;
+
+        for (ArrayList<Integer> arrayList : nextTiles) {
             if (grid.get(arrayList)) {
                 acc++;
             }
         }
 
         System.out.println(acc);
+
         
+        
+    }
+
+    public static ArrayList<ArrayList<Integer>> generateOutsideTiles(ArrayList<ArrayList<Integer>> tiles) {
+
+        ArrayList<ArrayList<Integer>> next = new ArrayList<>();
+
+        for (ArrayList<Integer> arrayList : tiles) {
+            
+            next.addAll(surroundings(arrayList));
+        }
+
+        ArrayList<ArrayList<Integer>> noDups = (ArrayList<ArrayList<Integer>>) next.stream().distinct().collect(Collectors.toList());
+
+        for (ArrayList<Integer> arrayList : noDups) {
+            if (!grid.containsKey(arrayList)) {
+                grid.put(arrayList, false);
+            }
+        }
+
+        return noDups;
+
+    }
+
+    public static ArrayList<ArrayList<Integer>> surroundings(ArrayList<Integer> tile) {
+
+        ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
+        int x = tile.get(0);
+        int y = tile.get(1);
+        int z = tile.get(2);
+        ArrayList<Integer> ne = new ArrayList<>();
+        ne.add(x + 1);
+        ne.add(y);
+        ne.add(z - 1);
+        ArrayList<Integer> nw = new ArrayList<>();
+        nw.add(x);
+        nw.add(y + 1);
+        nw.add(z - 1);
+        ArrayList<Integer> w = new ArrayList<>();
+        w.add(x - 1);
+        w.add(y + 1);
+        w.add(z);
+        ArrayList<Integer> sw = new ArrayList<>();
+        sw.add(x - 1);
+        sw.add(y);
+        sw.add(z + 1);
+        ArrayList<Integer> se = new ArrayList<>();
+        se.add(x);
+        se.add(y - 1);
+        se.add(z + 1);
+        ArrayList<Integer> e = new ArrayList<>();
+        e.add(x + 1);
+        e.add(y - 1);
+        e.add(z);
+
+        tiles.add(ne);
+        tiles.add(nw);
+        tiles.add(w);
+        tiles.add(sw);
+        tiles.add(se);
+        tiles.add(e);
+
+        return tiles;
     }
     
 }
