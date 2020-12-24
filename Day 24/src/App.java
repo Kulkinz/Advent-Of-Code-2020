@@ -207,19 +207,34 @@ public class App {
 
         System.out.println(tilesSize - difference - difference);
 
+        System.out.println(difference);
+
         // System.out.println(tiles.size());
         // System.out.println(noDups.size());
         
 
-        // for (ArrayList<Integer> arrayList : tiles) {
+        for (ArrayList<Integer> arrayList : tiles) {
 
             // System.out.println(arrayList);
+
+            if (grid.containsKey(arrayList)) {
+                boolean test = grid.get(arrayList);
+                grid.put(arrayList, !test);
+            } else {
+                grid.put(arrayList, true);
+            }
             // if (grid.get(arrayList)) {
             //     acc++;
             // }
-        // }
+        }
 
-        // System.out.println(acc);
+        for (ArrayList<Integer> arrayList : noDups) {
+            if (grid.get(arrayList)) {
+                acc++;
+            }
+        }
+
+        System.out.println(acc);
         
     }
     
