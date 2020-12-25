@@ -26,6 +26,4 @@ Here contains all my solutions for Advent of Code 2020. A mixture of languages. 
 | 22 | | XX |
 | 23 | | XX |
 | 24 | | XX |
-| 25 | | |
-
-Day 23-25 likely will be finished later due to recovery during this time.
+| 25 | | XX |
